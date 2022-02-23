@@ -1,29 +1,28 @@
 <template>
   <div class="container">
     <Header @toggle-add-task="toggleAddTask" title="Task Tracker" :showAddTask="showAddTask"/>
-    <div v-if="showAddTask">
-      <AddTask @add-task="addTask" />
-    </div>
     
-    <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
+    <router-view :showAddTask="showAddTask"></router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from './components/Header'
-import Tasks from './components/Tasks.vue'
-import AddTask from './components/AddTask.vue'
+
+
+import Footer from './components/Footer.vue'
+
+
 
 export default {
   name: 'App',
   components: {
     Header,
-    Tasks,
-    AddTask
+    Footer
   },
   data(){
     return{
-      tasks: [],
       showAddTask: false
     }
   },
@@ -31,47 +30,8 @@ export default {
     toggleAddTask(){
       this.showAddTask = !this.showAddTask;
     },
-    addTask(task){
-      this.tasks = [...this.tasks, task];
-    },
-    deleteTask(id){
-      if(confirm('Are you sure?')){
-        this.tasks = this.tasks.filter((task) => task.id !== id);
-      }
-    },
-    toggleReminder(id){
-      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
-    },
-    
   },
-  created(){
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Texto 1',
-        day: 'Dia 1',
-        reminder: true,
-      },
-            {
-        id: 2,
-        text: 'Texto 2',
-        day: 'Dia 2',
-        reminder: true,
-      },
-            {
-        id: 3,
-        text: 'Texto 3',
-        day: 'Dia 3',
-        reminder: false,
-      },
-            {
-        id: 4,
-        text: 'Texto 4',
-        day: 'Dia 4',
-        reminder: true,
-      },
-    ]
-  }
+  
 }
 </script>
 
